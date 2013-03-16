@@ -27,11 +27,14 @@
 			  "http://news.ycombinator.com/*", 
 			  "http://news.ycombinator.org/*", 
 			  "http://hackerne.ws/*",
-			  "https://news.ycombinator.com/*"
+			  "https://news.ycombinator.com/*",
+        "http://www.hnsearch.com/*",
+        "https://www.hnsearch.com/*"
       ],
       "css": [
 			  "forms.css", 
-			  "hn.css"
+			  "hn.css", 
+			  "hnsearch.css"
       ],
       "js": [
 			  "js/libs/jquery-1.7.1.min.js",

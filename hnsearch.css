@@ -1,0 +1,87 @@
+#layout {
+    margin: 0 auto !important;
+}
+
+#layout #layout-header .toolbar-wrapper {
+    background: #fff;
+    padding: 22px 30px;
+    height: 100px;
+}
+
+#layout #layout-header .toolbar-form-input {
+    padding: 4px;
+}
+
+#layout #layout-header .toolbar-form-button.btn {
+    margin: 0;
+}
+
+#layout #layout-header .toolbar-layout-col1-ycombinator {
+    width: 200px;
+    padding: 0;
+    vertical-align: top;
+    position: absolute;
+}
+
+#layout #layout-header .toolbar-layout-col1-ycombinator a {
+	background: url(chrome-extension://__MSG_@@extension_id__/images/icon.png) no-repeat center center;
+    background-size: 100%;
+    display: block;
+    padding: 0;
+    color: transparent;
+    width: 18px;
+    height: 18px;
+    margin: 0 1px;
+}
+
+#layout #layout-header .toolbar-layout-col1-ycombinator a:after {
+	content: "Hacker News Search";
+    display: inline;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgb(68, 68, 68);
+    position: relative;
+    top: -11px;
+    left: 12px;
+}
+
+#layout #layout-header .toolbar-layout-col2 {
+    position: absolute;
+    top: 55px;
+}
+
+#layout #layout-header .toolbar-form-radio-wrapper label {
+    display: inline;
+    padding-left: 5px;
+    padding-right: 10px;
+}
+
+#layout #layout-body {
+    background: #fff;
+    padding: 0 30px;
+}
+
+#layout #layout-body .content-pagination a {
+    background: #eee;
+    padding: 4px 8px;
+    text-decoration: none;
+    -webkit-border-radius: 2px;
+}
+
+#layout #layout-body .content-pagination a:hover {
+    background: #F60;
+    color: #fff;
+}
+
+#layout #layout-body .content-pagination a.current {
+    background: transparent;
+    font-weight: bold;
+    color: #333;
+}
+
+#layout #layout-footer {
+    border-top: 0;
+    background: #fff;
+    padding: 20px 0;
+}
