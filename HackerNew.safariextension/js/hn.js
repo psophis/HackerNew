@@ -199,6 +199,9 @@ var hn = {
         var $more = $('td.title a[href^="/x"], td.title a[href^="news2"]').last().addClass('endless_loading');
         var $morerow = $more.parent().parent();
 
+        // Remove extra row between pages
+        $morerow.prev().remove();
+
         // extract the URL for the next page
         var url = $more.attr('href');
 
