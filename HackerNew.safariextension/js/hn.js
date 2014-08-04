@@ -23,19 +23,26 @@ var hn = {
         switch(window.location.pathname) {
             case '/news':
             case '/newest':
+            case '/show':
+            case '/ask':
                 hn.createFilterMenu();
                 break;
             case '/newcomments':
                 $('html').addClass('comments');
+                hn.augmentComments();
+                hn.createFilterMenu();
                 break;
             case '/item':
             case '/threads':
                 $('html').addClass('item');
                 hn.augmentComments();
                 hn.createQuickReply();
+                hn.createFilterMenu();
+                break;
+            case '/submit':
                 break;
             default:
-                    hn.createFilterMenu();
+                hn.createFilterMenu();
                 $('html').addClass('news');
         }
     },
@@ -47,8 +54,6 @@ var hn = {
 
     replaceImages: function(){
         $("img[src='y18.gif']").attr('src', (safari.extension.baseURI + "images/icon.png"));
-        $("img[src='grayarrow.gif']").attr('src', (safari.extension.baseURI + "images/arrow-up.png")).show();
-        $("img[src='graydown.gif']").attr('src', (safari.extension.baseURI + "images/arrow-down.png")).show();
         $("link[rel='shortcut icon']").attr('href', (safari.extension.baseURI + "images/icon.png"));
     },
 
@@ -63,7 +68,7 @@ var hn = {
     },
 
     createFilterMenu: function(){
-        $('.pagetop').last().prepend('<a id="menu-filters">filters<span class="count"></span></a> | ');
+        $('.pagetop').last().append(' | <a id="menu-filters">filters<span class="count"></span></a>');
         $('.pagetop').parents('tr').first().after('<tr><td colspan="3" id="filter-wrapper"><em></em><input type="text" id="add-filter" placeholder="Add a term or phrase to filter" /><p class="empty">Add a filter on the right to no longer see it on HN.</p><ul id="current-filters"></ul></td></tr>');
         hn.refreshFilters();
     },
@@ -100,7 +105,8 @@ var hn = {
     bindEvents: function(){
 
         $('#menu-filters').live('click', function(){
-            $('#filter-wrapper').fadeToggle();
+            $('#filter-wrapper').fadeToggle(200);
+            $('#menu-filters').toggleClass("enabled");
         });
 
         $('a.filter.remove').live('click', function(){
@@ -145,8 +151,8 @@ var hn = {
         $('.toggle-replies').click(hn.toggleReplies);;
 
         // slice removes the first user, which is always ourselves
-            // $('a[href^=user]').slice(1).hoverIntent(hn.loadUserDetails, function(){});
-        $('a[href^=reply]').click(hn.quickReply);
+        // $('a[href^="user?id="]').slice(1).hoverIntent(hn.loadUserDetails, function(){});
+        $('a[href^="reply?id="]').click(hn.quickReply);
 
         $(document).click(hn.closeQuickReply);
         $(document).scroll(hn.checkPageEnd);
@@ -196,20 +202,22 @@ var hn = {
         var $temp = $('<div/>');
 
         // find the 'More' link and add a loading class
-        var $more = $('td.title a[href^="/x"], td.title a[href^="news2"]').last().addClass('endless_loading');
+        var $more = $('td.title a[href^="news?p="], td.title a[href^="newest?next="], td.title a[href^="newcomments?next="], td.title a[href^="show?p="], td.title a[href^="ask?p="]').last().addClass('endless_loading');
         var $morerow = $more.parent().parent();
 
-        // Remove extra row between pages
+        // remove extra tr
         $morerow.prev().remove();
 
         // extract the URL for the next page
         var url = $more.attr('href');
+        console.log(url);
 
         // load next page
         $temp.load(url, function(){
 
-            // find the first news title and jump up two levels to get news table body
-            $temp = $temp.find('td.title:first-child').parent().parent().html();
+            // find the first news title or comment and jump up two levels to get news table body
+            $temp = $temp.find('td.title:first-child, td.default').parent().parent().html();
+            // $temp = $temp.find('td.default').parent().parent().html();
 
             // add extra options to stories before appending to DOM
             $morerow.after($temp);
@@ -223,7 +231,7 @@ var hn = {
             hn.augmentStories();
 
             // bind quick profiles
-            $('a[href^=user]').hoverIntent(hn.loadUserDetails, function(){});
+            $('a[href^="user?id="]').hoverIntent(hn.loadUserDetails, function(){});
         });
     },
 
@@ -248,7 +256,7 @@ var hn = {
             ev.preventDefault();
 
             // show that we are doing something
-            $('input', $element).val('saving...');
+            $('input', $element).val('Submitting...');
 
             // load real reply form from server, modify and submit
             $temp.load(url, function(){
@@ -304,6 +312,7 @@ var hn = {
         var $temp = $('<div/>');
         var url = $(this).attr('href') + ' table';
         var username = $(this).text();
+        console.log(username);
 
         hn.identelem = $(this);
         hn.renderProfileBubble();
@@ -331,28 +340,28 @@ var hn = {
                 }
             };
 
-            if (filtered.length) {
-                hn.renderProfileBubble([], filtered, username, karma);
+            // if (filtered.length) {
+                // hn.renderProfileBubble([], filtered, username, karma);
 
                 // clean list of profile urls through social lib
-                hn.loadUserProfiles(filtered, function(identities){
-                    hn.renderProfileBubble(identities, urls, username, karma);
-                });
-            } else {
+                // hn.loadUserProfiles(filtered, function(identities){
+                    // hn.renderProfileBubble(identities, urls, username, karma);
+                // });
+            // } else {
                 // otherwise just render a plain profile bubble
                 hn.renderProfileBubble([], [], username, karma);
-            }
+            // }
         });
     },
 
-    loadUserProfiles: function(urls, callback){
+    // loadUserProfiles: function(urls, callback){
 
-        var name = 'ident' + (new Date).getTime();
-        var port = chrome.extension.connect({name: name});
-        port.postMessage({urls: urls});
-        port.onMessage.addListener(callback);
-        hn.identport = port;
-    },
+        // var name = 'ident' + (new Date).getTime();
+        // var port = chrome.extension.connect({name: name});
+        // port.postMessage({urls: urls});
+        // port.onMessage.addListener(callback);
+        // hn.identport = port;
+    // },
 
     renderProfileBubble: function(identities, urls, username, karma){
 
@@ -432,15 +441,16 @@ var hn = {
 
         var follows = hn.getStorage("follows");
 
-        $('td.title').not('.hn-processed').each(function(){
+        $('td.title').not('[align="right"]').not('.hn-processed').each(function(){
 
             var $link = $('a', this);
             var $title = $link.parent();
             var $details = $title.parent().next().find('td.subtext');
             var $flag = $('a', $details).eq(1);
 
+
             // extract story info
-            var domain = $('.comhead', $title).text().replace(/\(|\)/g, '');
+            var domain = $('.comhead', $title).text().replace(/\ \(|\)\ /g, '');
             var $username = $('a', $details).first();
             var username = $username.text();
 
@@ -452,10 +462,16 @@ var hn = {
             }
 
             // add filtering options
-            $link.before('<div class="filter-menu"><span>&#215;</span> <div class="quick-filter"><em></em> <ul>'+
-                '<li><a data-filter="user:'+ username +'" class="add-filter">Filter user \''+ username +'\'</a></li>'+
-                '<li><a data-filter="site:'+ domain +'" class="add-filter">Filter&nbsp;'+ domain +'</a></li>'+
-            '</ul></div></div>');
+            $link.parent().after('<td class="filter-menu">'+
+                            '<span>&#215;</span>'+
+                            '<div class="quick-filter">'+
+                                '<em></em>'+
+                                '<ul>'+
+                                    '<li><a data-filter="user:'+ username +'" class="add-filter">Filter user \''+ username +'\'</a></li>'+
+                                    '<li><a data-filter="site:'+ domain +'" class="add-filter">Filter domain \''+ domain +'\'</a></li>'+
+                                '</ul>'+
+                            '</div>'+
+                        '</td>');
 
             // add sharing and cache
             $flag.after(' | <a href="http://webcache.googleusercontent.com/search?q=cache:'+ $link.attr('href') +'">cached</a> | <a class="share-story" href="#">share</a>');
@@ -466,6 +482,8 @@ var hn = {
             });
 
             $(this).addClass('hn-processed');
+            // remove period in number
+            $(this).prev().prev().text($(this).prev().prev().text().slice(0, -1));
         });
     },
 

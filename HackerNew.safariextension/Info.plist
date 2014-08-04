@@ -18,6 +18,8 @@
 	<string>1</string>
 	<key>Chrome</key>
 	<dict>
+		<key>Database Quota</key>
+		<real>5242880</real>
 		<key>Global Page</key>
 		<string>background.html</string>
 	</dict>
@@ -29,6 +31,8 @@
 			<array>
 				<string>js/libs/jquery-1.7.1.min.js</string>
 				<string>js/hn.js</string>
+				<string>js/libs/jquery.hoverIntent.js</string>
+				<string>js/libs/jquery.autogrow.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
