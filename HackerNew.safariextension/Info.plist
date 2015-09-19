@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Psophis</string>
 	<key>Builder Version</key>
-	<string>10538.46</string>
+	<string>10600.8.9</string>
 	<key>CFBundleDisplayName</key>
 	<string>HackerNew</string>
 	<key>CFBundleIdentifier</key>
@@ -13,13 +13,13 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Database Quota</key>
-		<real>5242880</real>
+		<real>0.0</real>
 		<key>Global Page</key>
 		<string>background.html</string>
 	</dict>
