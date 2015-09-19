@@ -450,7 +450,7 @@ var hn = {
 
 
             // extract story info
-            var domain = $('.comhead', $title).text().replace(/\ \(|\)\ /g, '');
+            var domain = $('.comhead', $title).text().replace(/\ \(|\)/g, '');
             var $username = $('a', $details).first();
             var username = $username.text();
 
