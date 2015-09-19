@@ -443,7 +443,7 @@ var hn = {
 
         $('td.title').not('[align="right"]').not('.hn-processed').each(function(){
 
-            var $link = $('a', this);
+            var $link = $(this).children('a')
             var $title = $link.parent();
             var $details = $title.parent().next().find('td.subtext');
             var $flag = $('a', $details).eq(1);
