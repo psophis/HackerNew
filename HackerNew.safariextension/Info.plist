@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Psophis</string>
 	<key>Builder Version</key>
-	<string>10600.8.9</string>
+	<string>10601.1.56.2</string>
 	<key>CFBundleDisplayName</key>
 	<string>HackerNew</string>
 	<key>CFBundleIdentifier</key>
@@ -61,6 +61,8 @@
 			<string>Some</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>https://raw.github.com/psophis/HackerNew/master/update-manifiest.plist</string>
 	<key>Website</key>
 	<string>https://github.com/psophis/HackerNew</string>
 </dict>
