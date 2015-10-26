@@ -202,7 +202,7 @@ var hn = {
         var $temp = $('<div/>');
 
         // find the 'More' link and add a loading class
-        var $more = $('td.title a[href^="news?p="], td.title a[href^="newest?next="], td.title a[href^="newcomments?next="], td.title a[href^="show?p="], td.title a[href^="ask?p="]').last().addClass('endless_loading');
+        var $more = $('td.title a[href*="?p="], td.title a[href*="?next="]').last().addClass('endless_loading');
         var $morerow = $more.parent().parent();
 
         // remove extra tr
