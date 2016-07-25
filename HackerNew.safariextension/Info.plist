@@ -62,7 +62,7 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>https://raw.github.com/psophis/HackerNew/master/update-manifiest.plist</string>
+	<string>https://raw.github.com/thanegill/HackerNew/master/update-manifiest.plist</string>
 	<key>Website</key>
 	<string>https://github.com/psophis/HackerNew</string>
 </dict>
