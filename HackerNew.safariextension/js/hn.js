@@ -8,7 +8,6 @@ var hn = {
     endless_preload: 300,
 
     init: function(){
-
         hn.setPage();
         hn.styleElements();
         hn.replaceImages();
@@ -29,7 +28,6 @@ var hn = {
                 break;
             case '/newcomments':
                 $('html').addClass('comments');
-                hn.augmentComments();
                 hn.createFilterMenu();
                 break;
             case '/item':
@@ -148,8 +146,6 @@ var hn = {
 
         // $('textarea').first().autogrow();
 
-        $('.toggle-replies').click(hn.toggleReplies);;
-
         // slice removes the first user, which is always ourselves
         // $('a[href^="user?id="]').slice(1).hoverIntent(hn.loadUserDetails, function(){});
         $('a[href^="reply?id="]').click(hn.quickReply);
@@ -265,46 +261,6 @@ var hn = {
                 $temp.find('form').submit();
             });
         });
-    },
-
-    toggleReplies: function(ev){
-
-        var $button = $(this);
-
-        if ($button.hasClass('collapsed')) {
-            var uniq = $button.data('uniq');
-            $('.hidden-reply-' + uniq).show().removeClass();
-            $button.text('[-]')
-                   .removeClass('collapsed');
-            $button.parent().parent().parent().children(".comment, p").show();
-            return;
-        }
-
-        var count = 0;
-        var parent = $button.parents('td.default').offset();
-        var uniq = (new Date()).getTime();
-
-        $('td.default').each(function(){
-            var offset = $(this).offset();
-
-            if (offset.top > parent.top) {
-                if (offset.left > parent.left) {
-                    count++;
-
-                    // find parent tr, several levels down
-                    $(this).parent().parent().parent().parent().parent().hide().addClass('hidden-reply-' + uniq);
-                    return true;
-                }
-
-                // gone too far
-                return false;
-            }
-        });
-        $button.parents("td.default").children("span.comment, p").hide();
-
-        $button.text("[+]")
-               .addClass('collapsed')
-               .data('uniq', uniq);
     },
 
     loadUserDetails: function(ev){
@@ -489,12 +445,9 @@ var hn = {
 
     augmentComments: function(){
 
-        $('span.comment').each(function(){
+        $('a.togg').each(function(){
             var $wrapper = $(this).parent();
-            var $meta = $wrapper.find('span.comhead');
-
-            $meta.prepend('<a class="toggle-replies">[-]<a> ');
-
+            $wrapper.find('a.togg').detach().prependTo($wrapper);
         });
 
         hn.updateHighlights();
