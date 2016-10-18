@@ -46,7 +46,6 @@ var hn = {
     },
 
     styleElements: function(){
-
         $('input[type=submit]').addClass('btn');
     },
 
@@ -56,12 +55,10 @@ var hn = {
     },
 
     createProfileBubble: function(){
-
         $('body').append('<div id="profile-bubble"><em></em><div class="profile"></div></div>');
     },
 
     createQuickReply: function(){
-
         $('body').append('<div id="quick-reply"><em></em><div class="reply"><form><textarea></textarea><input type="submit" value="reply" class="btn" /></form></div></div>');
     },
 
@@ -81,7 +78,6 @@ var hn = {
     },
 
     refreshFilters: function(){
-
         var filters = hn.getStorage('filters');
         var $filters = '';
 
@@ -101,7 +97,6 @@ var hn = {
     },
 
     bindEvents: function(){
-
         $('#menu-filters').live('click', function(){
             $('#filter-wrapper').fadeToggle(200);
             $('#menu-filters').toggleClass("enabled");
@@ -179,7 +174,6 @@ var hn = {
     },
 
     checkPageEnd: function(){
-
         // dont do anything if we're already loading the next page
         if (hn.endless_loading) return;
 
@@ -192,9 +186,7 @@ var hn = {
     },
 
     loadNextPage: function(){
-
         hn.endless_loading = true;
-
         var $temp = $('<div/>');
 
         // find the 'More' link and add a loading class
@@ -210,7 +202,6 @@ var hn = {
 
         // load next page
         $temp.load(url, function(){
-
             // find the first news title or comment and jump up two levels to get news table body
             $temp = $temp.find('td.title:first-child, td.default').parent().parent().html();
             // $temp = $temp.find('td.default').parent().parent().html();
@@ -250,13 +241,10 @@ var hn = {
         // upon reply
         $('form', $element).submit(function(ev){
             ev.preventDefault();
-
             // show that we are doing something
             $('input', $element).val('Submitting...');
-
             // load real reply form from server, modify and submit
             $temp.load(url, function(){
-
                 $temp.find('textarea').val($textarea.val());
                 $temp.find('form').submit();
             });
@@ -264,7 +252,6 @@ var hn = {
     },
 
     loadUserDetails: function(ev){
-
         var $temp = $('<div/>');
         var url = $(this).attr('href') + ' table';
         var username = $(this).text();
@@ -275,21 +262,17 @@ var hn = {
 
         // load user profile page into temporary container
         $temp.load(url, function(){
-
             // find this users karma value
             var karma = $temp.find("td:contains('karma')").next().text();
-
             // twitter's library is far and away the best for extracting urls
             var urlsWithIndices = twttr.txt.extractUrlsWithIndices($temp.html());
             var filtered = [];
 
             for (var i = 0; i < urlsWithIndices.length; i++) {
-
                 // ensure urls are properly formed
                 if(!urlsWithIndices[i].url.match(/^https?:\/\//gi)){
                     urlsWithIndices[i].url = 'http://' + urlsWithIndices[i].url;
                 }
-
                 // filter out any ycombinator that might have got in there
                 if(!urlsWithIndices[i].url.match(/ycombinator/gi)){
                     filtered.push(urlsWithIndices[i].url);
@@ -320,9 +303,7 @@ var hn = {
     // },
 
     renderProfileBubble: function(identities, urls, username, karma){
-
         if (identities || urls || karma) {
-
             identities = identities || [];
             urls = urls || [];
 
@@ -387,18 +368,15 @@ var hn = {
     },
 
     closeQuickReply: function(ev){
-
         if (!$(ev.target).parents('#profile-bubble').length && ev.target != $('#profile-bubble')[0]) {
             $('#profile-bubble').fadeOut(200);
         }
     },
 
     augmentStories: function(){
-
         var follows = hn.getStorage("follows");
 
         $('td.title').not('[align="right"]').not('.hn-processed').each(function(){
-
             var $link = $(this).children('a')
             var $title = $link.parent();
             var $details = $title.parent().next().find('td.subtext');
@@ -444,7 +422,6 @@ var hn = {
     },
 
     augmentComments: function(){
-
         $('a.togg').each(function(){
             var $wrapper = $(this).parent();
             $wrapper.find('a.togg').detach().prependTo($wrapper);
@@ -454,7 +431,6 @@ var hn = {
     },
 
     updateHighlights: function() {
-
         var follows = hn.getStorage("follows");
 
         $('span.comment').each(function(){
@@ -473,7 +449,6 @@ var hn = {
     },
 
     filterStories: function(){
-
         var count = 0;
 
         $('td.title a').each(function(){
@@ -511,22 +486,18 @@ var hn = {
     },
 
     checkFiltered: function(title, domain, username){
-
         var filters = hn.getStorage('filters');
         var filter;
 
         for(var i=0, l=filters.length; i < l; i++){
-
             // filter domain
             if (filters[i].match(/^site:/)) {
-
                 // domain name can be partial match
                 var re = new RegExp(filters[i].replace(/site:/i, ''), 'gi');
                 if (domain.match(re)) return true;
 
             // filter user
             } else if (filters[i].match(/^user:/)) {
-
                 // username must be exact match
                 var re = new RegExp('^' + filters[i].replace(/user:/i, '') + '$', 'gi');
                 if (username.match(re)) return true;
